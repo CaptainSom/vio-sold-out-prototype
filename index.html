@@ -405,40 +405,59 @@
       gap: 6px;
     }
 
-    /* ── SOLD-OUT OFFER STATE ────────────────────── */
-    .offer-box.sold-out {
-      background: #FAFAFA;
-      border-color: #DDD;
-    }
-
-    .sold-out-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
-
-    .price-muted { color: var(--text-light); }
-
-    .btn-find-alt {
-      width: 100%;
-      padding: 13px;
-      background: var(--purple);
-      color: #fff;
-      border: none;
-      border-radius: 9px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 10px;
+    /* ── LOADING OVERLAY ───────────────────────────── */
+    .loading-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.52);
+      z-index: 1000;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      transition: background .15s;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .22s ease;
     }
 
-    .btn-find-alt:hover { background: var(--purple-dark); }
+    .loading-backdrop.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .loader-card {
+      background: #fff;
+      border-radius: 18px;
+      padding: 44px 56px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 24px 72px rgba(0,0,0,.22);
+      min-width: 280px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3.5px solid var(--purple-light);
+      border-top-color: var(--purple);
+      border-radius: 50%;
+      animation: spin .75s linear infinite;
+    }
+
+    .loader-label {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .loader-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: -6px;
+    }
 
     /* ── OVERLAY ─────────────────────────────────── */
     .backdrop {
@@ -895,21 +914,15 @@
         <span class="amenity">🌅 City View</span>
       </div>
 
-      <!-- Sold-out offer -->
-      <div class="offer-box sold-out">
+      <div class="offer-box">
         <div class="offer-left">
-          <div class="sold-out-row">
-            <span class="badge badge-soldout">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
-              Sold out
-            </span>
-          </div>
+          <div class="offer-headline">Today's lowest price</div>
           <div class="perks">
-            <span class="perk gray">
+            <span class="perk">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               Free cancellation before Sep 2
             </span>
-            <span class="perk gray">
+            <span class="perk">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="8 12 12 16 16 12"/></svg>
               Breakfast included
             </span>
@@ -918,17 +931,15 @@
         </div>
         <div class="offer-right">
           <div style="text-align:right; margin-bottom:6px">
-            <span class="badge" style="background:#F0F0F0; color:var(--text-light)">Only on Vio</span>
+            <span class="badge badge-vio">Only on Vio</span>
           </div>
           <div>
-            <span class="price-now price-muted">€139</span>
-            <span class="price-unit price-muted"> / night</span>
+            <span class="price-now">€139</span>
+            <span class="price-unit"> / night</span>
           </div>
-          <div class="price-total" style="color:var(--text-light)">€277 total 1 room, 2 nights<br>incl. taxes &amp; fees</div>
-          <button class="btn-find-alt" onclick="openOverlay()">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            Find alternative &nbsp;›
-          </button>
+          <div class="price-total">€277 total 1 room, 2 nights<br>incl. taxes &amp; fees</div>
+          <button class="btn-book" onclick="openOverlay()">Book &nbsp;›</button>
+          <button class="btn-freeze">Freeze deal &nbsp;✳️</button>
         </div>
       </div>
     </div>
@@ -1017,7 +1028,18 @@
 
 
 <!-- ═══════════════════════════════════════════════
-     SOLD-OUT ALTERNATIVE OVERLAY
+     LOADING OVERLAY (stage 1)
+══════════════════════════════════════════════════ -->
+<div class="loading-backdrop" id="loadingBackdrop">
+  <div class="loader-card">
+    <div class="spinner"></div>
+    <div class="loader-label">Checking availability…</div>
+    <div class="loader-sub">Searching for the best option</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SOLD-OUT ALTERNATIVE OVERLAY (stage 2)
 ══════════════════════════════════════════════════ -->
 <div class="backdrop" id="backdrop" onclick="handleBackdropClick(event)">
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
@@ -1124,8 +1146,20 @@
 
 <script>
   function openOverlay() {
-    document.getElementById('backdrop').classList.add('open');
+    const loadingBackdrop = document.getElementById('loadingBackdrop');
+    const resultBackdrop  = document.getElementById('backdrop');
+
+    // Stage 1: show loader
+    loadingBackdrop.classList.add('open');
     document.body.style.overflow = 'hidden';
+
+    // Stage 2: after 1.6s, fade out loader then fade in modal
+    setTimeout(function() {
+      loadingBackdrop.classList.remove('open');
+      setTimeout(function() {
+        resultBackdrop.classList.add('open');
+      }, 230); // wait for loading backdrop to finish fading out
+    }, 1600);
   }
 
   function closeOverlay() {
@@ -1138,7 +1172,10 @@
   }
 
   document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeOverlay();
+    if (e.key === 'Escape') {
+      closeOverlay();
+      document.getElementById('loadingBackdrop').classList.remove('open');
+    }
   });
 </script>
 </body>
