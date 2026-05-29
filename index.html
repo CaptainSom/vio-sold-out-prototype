@@ -855,12 +855,11 @@
             <span class="badge badge-vio">Only on Vio</span>
           </div>
           <div>
-            <span class="price-was">€140</span>
-            <span class="price-now"> €144</span>
+            <span class="price-now">€139</span>
             <span class="price-unit"> / night</span>
           </div>
-          <div class="price-total">€287 total 1 room, 2 nights<br>incl. taxes &amp; fees</div>
-          <button class="btn-book" onclick="openOverlay()">Book &nbsp;›</button>
+          <div class="price-total">€277 total 1 room, 2 nights<br>incl. taxes &amp; fees</div>
+          <button class="btn-book" onclick="openOverlay('deluxe')">Book &nbsp;›</button>
           <button class="btn-freeze">Freeze deal &nbsp;✳️</button>
         </div>
       </div>
@@ -938,7 +937,7 @@
             <span class="price-unit"> / night</span>
           </div>
           <div class="price-total">€277 total 1 room, 2 nights<br>incl. taxes &amp; fees</div>
-          <button class="btn-book" onclick="openOverlay()">Book &nbsp;›</button>
+          <button class="btn-book" onclick="openOverlay('superior')">Book &nbsp;›</button>
           <button class="btn-freeze">Freeze deal &nbsp;✳️</button>
         </div>
       </div>
@@ -1057,18 +1056,18 @@
     <div class="modal-from">
       <div class="section-label">You selected</div>
       <div class="room-row">
-        <img class="room-thumb-img"
+        <img id="selected-img" class="room-thumb-img"
           src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=200&q=70"
           alt="Superior King Room">
         <div class="room-row-info">
           <div class="row-name">
-            Superior King Room
+            <span id="selected-name">Superior King Room</span>
             <span class="badge badge-soldout" style="font-size:10px">
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
               Sold out
             </span>
           </div>
-          <div class="row-specs">1 King Bed &nbsp;·&nbsp; Sleeps 2 &nbsp;·&nbsp; 28 m²</div>
+          <div id="selected-specs" class="row-specs">1 King Bed &nbsp;·&nbsp; Sleeps 2 &nbsp;·&nbsp; 28 m²</div>
           <div class="perk-tags">
             <span class="pt pt-gray">
               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
@@ -1145,9 +1144,30 @@
 
 
 <script>
-  function openOverlay() {
-    const loadingBackdrop = document.getElementById('loadingBackdrop');
-    const resultBackdrop  = document.getElementById('backdrop');
+  var rooms = {
+    deluxe: {
+      name:  'Deluxe Room',
+      specs: '1 King Bed &nbsp;·&nbsp; Sleeps 4 &nbsp;·&nbsp; 30 m²',
+      img:   'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=200&q=70',
+      alt:   'Deluxe Room'
+    },
+    superior: {
+      name:  'Superior King Room',
+      specs: '1 King Bed &nbsp;·&nbsp; Sleeps 2 &nbsp;·&nbsp; 28 m²',
+      img:   'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=200&q=70',
+      alt:   'Superior King Room'
+    }
+  };
+
+  function openOverlay(roomKey) {
+    var room = rooms[roomKey];
+    document.getElementById('selected-name').textContent = room.name;
+    document.getElementById('selected-specs').innerHTML  = room.specs;
+    document.getElementById('selected-img').src          = room.img;
+    document.getElementById('selected-img').alt          = room.alt;
+
+    var loadingBackdrop = document.getElementById('loadingBackdrop');
+    var resultBackdrop  = document.getElementById('backdrop');
 
     // Stage 1: show loader
     loadingBackdrop.classList.add('open');
@@ -1158,7 +1178,7 @@
       loadingBackdrop.classList.remove('open');
       setTimeout(function() {
         resultBackdrop.classList.add('open');
-      }, 230); // wait for loading backdrop to finish fading out
+      }, 230);
     }, 1600);
   }
 
