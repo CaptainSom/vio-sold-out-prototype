@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plaza Hotel & Casino — Vio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --purple:        #6933CC;
+      --purple-dark:   #5427A8;
+      --purple-light:  #EDE6F8;
+      --purple-badge:  #F2EDFB;
+      --green:         #007A4D;
+      --green-light:   #E6F5EF;
+      --red:           #B71C1C;
+      --red-light:     #FDECEA;
+      --bg:            #F8F2EC;
+      --card:          #FFFFFF;
+      --border:        #E6DED5;
+      --text:          #1A1A1A;
+      --text-muted:    #6B6B6B;
+      --text-light:    #A0A0A0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* ── HEADER ────────────────────────────────── */
+    .site-header {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      height: 64px;
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+      gap: 20px;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--purple);
+      letter-spacing: -0.5px;
+      flex-shrink: 0;
+    }
+
+    .logo svg { width: 36px; height: 36px; }
+
+    .search-pill {
+      flex: 1;
+      max-width: 700px;
+      display: flex;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .search-field {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 16px;
+      border-right: 1px solid var(--border);
+      flex: 1;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--text);
+      min-width: 0;
+    }
+
+    .search-field:last-of-type { border-right: none; flex: 0.7; }
+
+    .search-field strong { font-weight: 600; white-space: nowrap; }
+
+    .search-icon { color: var(--text-muted); flex-shrink: 0; }
+
+    .search-go {
+      background: var(--purple);
+      color: #fff;
+      border: none;
+      padding: 0 22px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      white-space: nowrap;
+    }
+
+    .header-meta {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-left: auto;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    /* ── PROPERTY NAV ───────────────────────────── */
+    .property-nav {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 0 48px;
+      display: flex;
+      overflow-x: auto;
+    }
+
+    .nav-tab {
+      padding: 14px 18px;
+      font-size: 13.5px;
+      color: var(--text-muted);
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .nav-tab.active {
+      color: var(--purple);
+      border-bottom-color: var(--purple);
+      font-weight: 600;
+    }
+
+    /* ── MAIN ────────────────────────────────────── */
+    .main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 24px 64px;
+    }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    .filters {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .filter-label { font-size: 14px; font-weight: 500; color: var(--text-muted); }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      background: #fff;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      color: var(--text);
+      transition: border-color .15s;
+    }
+
+    .chip:hover { border-color: var(--purple); }
+
+    /* ── ROOM CARD ───────────────────────────────── */
+    .room-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      display: flex;
+    }
+
+    .room-gallery {
+      width: 285px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .main-photo {
+      width: 100%;
+      height: 198px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .thumb-row {
+      display: flex;
+      gap: 4px;
+      padding: 5px;
+      background: #fff;
+    }
+
+    .thumb {
+      flex: 1;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .thumb-count {
+      flex: 1;
+      height: 50px;
+      background: #F0EBE5;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .room-body {
+      flex: 1;
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .room-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .room-name { font-size: 18px; font-weight: 700; }
+
+    .room-link {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .room-specs {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 12.5px;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+    }
+
+    .spec {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .amenity-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .amenity {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 10px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 12px;
+      color: var(--text-muted);
+      background: var(--bg);
+    }
+
+    /* ── OFFER BOX ───────────────────────────────── */
+    .offer-box {
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 18px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 4px;
+    }
+
+    .offer-left { flex: 1; }
+
+    .offer-headline {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--green);
+      margin-bottom: 9px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 9px;
+      border-radius: 5px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .badge-selection { background: var(--purple-badge); color: var(--purple); }
+    .badge-vio       { background: var(--purple-badge); color: var(--purple); border: 1px solid #D4BEF5; }
+    .badge-soldout   { background: var(--red-light);   color: var(--red); }
+
+    .perks { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
+
+    .perk {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--green);
+      font-weight: 500;
+    }
+
+    .perk.gray { color: var(--text-muted); }
+
+    .deal-link { font-size: 12px; color: var(--text-muted); text-decoration: underline; cursor: pointer; }
+
+    .offer-right { text-align: right; min-width: 175px; }
+
+    .price-was {
+      font-size: 12px;
+      color: var(--text-light);
+      text-decoration: line-through;
+    }
+
+    .price-now {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .price-unit { font-size: 13px; color: var(--text-muted); font-weight: 400; }
+
+    .price-total {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 3px;
+      line-height: 1.5;
+    }
+
+    .btn-book {
+      width: 100%;
+      padding: 13px;
+      background: var(--purple);
+      color: #fff;
+      border: none;
+      border-radius: 9px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: background .15s;
+    }
+
+    .btn-book:hover { background: var(--purple-dark); }
+
+    .btn-freeze {
+      width: 100%;
+      padding: 11px;
+      background: #fff;
+      color: var(--purple);
+      border: 1.5px solid var(--purple);
+      border-radius: 9px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    /* ── SOLD-OUT OFFER STATE ────────────────────── */
+    .offer-box.sold-out {
+      background: #FAFAFA;
+      border-color: #DDD;
+    }
+
+    .sold-out-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .price-muted { color: var(--text-light); }
+
+    .btn-find-alt {
+      width: 100%;
+      padding: 13px;
+      background: var(--purple);
+      color: #fff;
+      border: none;
+      border-radius: 9px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: background .15s;
+    }
+
+    .btn-find-alt:hover { background: var(--purple-dark); }
+
+    /* ── OVERLAY ─────────────────────────────────── */
+    .backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.52);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .22s ease;
+    }
+
+    .backdrop.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal {
+      background: #fff;
+      border-radius: 18px;
+      width: 100%;
+      max-width: 560px;
+      overflow: hidden;
+      box-shadow: 0 24px 72px rgba(0,0,0,.22);
+      transform: translateY(14px) scale(.98);
+      transition: transform .26s ease;
+    }
+
+    .backdrop.open .modal { transform: translateY(0) scale(1); }
+
+    /* Modal Header */
+    .modal-head {
+      padding: 22px 24px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-title { font-size: 17px; font-weight: 700; }
+
+    .modal-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    .close-btn {
+      width: 30px;
+      height: 30px;
+      border: 1.5px solid var(--border);
+      border-radius: 50%;
+      background: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: var(--text-muted);
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    .close-btn:hover { background: var(--bg); }
+
+    /* Sold-out room section */
+    .modal-from {
+      padding: 18px 24px;
+      background: #FFFAFA;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      color: var(--text-light);
+      margin-bottom: 11px;
+    }
+
+    .room-row {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .room-thumb-img {
+      width: 76px;
+      height: 58px;
+      border-radius: 7px;
+      object-fit: cover;
+      flex-shrink: 0;
+      opacity: .7;
+    }
+
+    .room-thumb-img.bright { opacity: 1; }
+
+    .room-row-info { flex: 1; }
+
+    .row-name {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .row-specs {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .perk-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    .pt {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 9px;
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .pt-green { background: var(--green-light); color: var(--green); }
+    .pt-gray  { background: #F0F0F0;            color: var(--text-muted); }
+    .pt-match { background: var(--green-light); color: var(--green); font-weight: 600; }
+
+    .row-price {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .row-price-main {
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .row-price-main.faded { color: var(--text-light); }
+
+    .row-price-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+    /* Divider */
+    .modal-divider {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .divider-icon {
+      width: 32px;
+      height: 32px;
+      border: 1.5px solid var(--border);
+      border-radius: 50%;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .divider-text {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    /* Available alternative section */
+    .modal-to {
+      padding: 18px 24px;
+      background: #F7FBF9;
+    }
+
+    /* Price match note */
+    .price-match-note {
+      margin: 0 24px;
+      padding: 11px 14px;
+      background: var(--green-light);
+      border: 1px solid #B8DECE;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--green);
+      font-weight: 500;
+    }
+
+    /* Footer */
+    .modal-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    .btn-book-alt {
+      width: 100%;
+      padding: 14px;
+      background: var(--purple);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background .15s;
+    }
+
+    .btn-book-alt:hover { background: var(--purple-dark); }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: underline;
+      cursor: pointer;
+      margin-top: 11px;
+    }
+
+    .back-link:hover { color: var(--text); }
+
+    /* ── RESPONSIVE POLISH ───────────────────────── */
+    @media (max-width: 800px) {
+      .room-card { flex-direction: column; }
+      .room-gallery { width: 100%; }
+      .main-photo { height: 220px; }
+      .search-pill { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     HEADER
+══════════════════════════════════════════════════ -->
+<header class="site-header">
+  <a class="logo" href="#">
+    <!-- Vio elephant logo (simplified SVG) -->
+    <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="24" cy="22" rx="15" ry="13" fill="#6933CC"/>
+      <ellipse cx="10" cy="25" rx="6" ry="5" fill="#6933CC"/>
+      <ellipse cx="10" cy="24" rx="3.5" ry="3" fill="#5427A8"/>
+      <circle  cx="29" cy="17" r="2.2" fill="white"/>
+      <ellipse cx="29" cy="17" rx="1" ry="1" fill="#6933CC"/>
+      <path d="M7 29 Q4.5 34 7.5 36 Q10 33.5 9 30Z" fill="#6933CC"/>
+      <path d="M36 24 Q39 28 37 33 Q35 31 35.5 28Z" fill="#6933CC"/>
+    </svg>
+    vio
+  </a>
+
+  <div class="search-pill">
+    <div class="search-field">
+      <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <strong>Plaza Hotel &amp; Casino</strong>
+    </div>
+    <div class="search-field" style="flex:0.65">
+      <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <strong>Sep 04 — Sep 06</strong>
+    </div>
+    <div class="search-field" style="flex:0.65; border-right:none">
+      <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <strong>2 guests, 1 room</strong>
+    </div>
+    <button class="search-go">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      Search
+    </button>
+  </div>
+
+  <div class="header-meta">
+    <span>🇺🇸 EUR</span>
+    <span style="cursor:pointer">Sign in</span>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════
+     PROPERTY NAV
+══════════════════════════════════════════════════ -->
+<nav class="property-nav">
+  <a class="nav-tab">Photos</a>
+  <a class="nav-tab">Amenities</a>
+  <a class="nav-tab">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    Price trend
+  </a>
+  <a class="nav-tab active">Rooms</a>
+  <a class="nav-tab">Reviews</a>
+  <a class="nav-tab">Location</a>
+  <a class="nav-tab">Property Policies</a>
+  <a class="nav-tab">FAQs</a>
+</nav>
+
+<!-- ═══════════════════════════════════════════════
+     MAIN
+══════════════════════════════════════════════════ -->
+<main class="main">
+  <h1 class="section-title">Book on Vio</h1>
+
+  <div class="filters">
+    <span class="filter-label">Filter by:</span>
+    <button class="chip">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      Freezable
+    </button>
+    <button class="chip">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+      Free cancellation
+    </button>
+    <button class="chip">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+      Pay later
+    </button>
+  </div>
+
+
+  <!-- ─────────────────────────────────────────────
+       ROOM 1 — Deluxe Room (Available)
+  ────────────────────────────────────────────── -->
+  <div class="room-card">
+    <div class="room-gallery">
+      <img class="main-photo"
+        src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&q=80"
+        alt="Deluxe Room">
+      <div class="thumb-row">
+        <img class="thumb" src="https://images.unsplash.com/photo-1631049421450-348ccd7f8949?w=150&q=70" alt="">
+        <img class="thumb" src="https://images.unsplash.com/photo-1594563703937-fdc640497dcd?w=150&q=70" alt="">
+        <div class="thumb-count">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          &nbsp;3
+        </div>
+      </div>
+    </div>
+
+    <div class="room-body">
+      <div class="room-top">
+        <span class="room-name">Deluxe Room</span>
+        <a class="room-link">Room details</a>
+      </div>
+
+      <div class="room-specs">
+        <span class="spec">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
+          1 King Bed <em style="color:var(--text-light);margin:0 4px">or</em> 2 Queen Beds
+        </span>
+        <span class="spec">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Sleeps 4
+        </span>
+        <span class="spec">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18"/></svg>
+          30 m²
+        </span>
+      </div>
+
+      <div class="amenity-row">
+        <span class="amenity">❄️ Air Conditioning</span>
+        <span class="amenity">📶 Wi-Fi</span>
+        <span class="amenity">🚿 Private Bathroom</span>
+      </div>
+
+      <div class="offer-box">
+        <div class="offer-left">
+          <div class="offer-headline">
+            Today's lowest price
+            <span class="badge badge-selection">Your selection</span>
+          </div>
+          <div class="perks">
+            <span class="perk">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Free cancellation before Sep 2
+            </span>
+            <span class="perk">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Book now, pay later
+            </span>
+          </div>
+          <a class="deal-link">Deal details</a>
+        </div>
+        <div class="offer-right">
+          <div style="text-align:right; margin-bottom:6px">
+            <span class="badge badge-vio">Only on Vio</span>
+          </div>
+          <div>
+            <span class="price-was">€140</span>
+            <span class="price-now"> €144</span>
+            <span class="price-unit"> / night</span>
+          </div>
+          <div class="price-total">€287 total 1 room, 2 nights<br>incl. taxes &amp; fees</div>
+          <button class="btn-book">Book &nbsp;›</button>
+          <button class="btn-freeze">Freeze deal &nbsp;✳️</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ─────────────────────────────────────────────
+       ROOM 2 — Superior King Room (SOLD OUT → overlay)
+  ────────────────────────────────────────────── -->
+  <div class="room-card">
+    <div class="room-gallery">
+      <img class="main-photo"
+        src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80"
+        alt="Superior King Room">
+      <div class="thumb-row">
+        <img class="thumb" src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=150&q=70" alt="">
+        <img class="thumb" src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=150&q=70" alt="">
+        <div class="thumb-count">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          &nbsp;5
+        </div>
+      </div>
+    </div>
+
+    <div class="room-body">
+      <div class="room-top">
+        <span class="room-name">Superior King Room</span>
+        <a class="room-link">Room details</a>
+      </div>
+
+      <div class="room-specs">
+        <span class="spec">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
+          1 King Bed
+        </span>
+        <span class="spec">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Sleeps 2
+        </span>
+        <span class="spec">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18"/></svg>
+          28 m²
+        </span>
+      </div>
+
+      <div class="amenity-row">
+        <span class="amenity">❄️ Air Conditioning</span>
+        <span class="amenity">📶 Wi-Fi</span>
+        <span class="amenity">🚿 Private Bathroom</span>
+        <span class="amenity">🌅 City View</span>
+      </div>
+
+      <!-- Sold-out offer -->
+      <div class="offer-box sold-out">
+        <div class="offer-left">
+          <div class="sold-out-row">
+            <span class="badge badge-soldout">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+              Sold out
+            </span>
+          </div>
+          <div class="perks">
+            <span class="perk gray">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Free cancellation before Sep 2
+            </span>
+            <span class="perk gray">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="8 12 12 16 16 12"/></svg>
+              Breakfast included
+            </span>
+          </div>
+          <a class="deal-link">Deal details</a>
+        </div>
+        <div class="offer-right">
+          <div style="text-align:right; margin-bottom:6px">
+            <span class="badge" style="background:#F0F0F0; color:var(--text-light)">Only on Vio</span>
+          </div>
+          <div>
+            <span class="price-now price-muted">€139</span>
+            <span class="price-unit price-muted"> / night</span>
+          </div>
+          <div class="price-total" style="color:var(--text-light)">€277 total 1 room, 2 nights<br>incl. taxes &amp; fees</div>
+          <button class="btn-find-alt" onclick="openOverlay()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            Find alternative &nbsp;›
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ─────────────────────────────────────────────
+       ROOM 3 — Premier Suite (Available)
+  ────────────────────────────────────────────── -->
+  <div class="room-card">
+    <div class="room-gallery">
+      <img class="main-photo"
+        src="https://images.unsplash.com/photo-1590490360182-c33d57733427?w=600&q=80"
+        alt="Premier Suite">
+      <div class="thumb-row">
+        <img class="thumb" src="https://images.unsplash.com/photo-1587213811864-fa6c8519c576?w=150&q=70" alt="">
+        <img class="thumb" src="https://images.unsplash.com/photo-1571508601891-ca5e7a713859?w=150&q=70" alt="">
+        <div class="thumb-count">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          &nbsp;7
+        </div>
+      </div>
+    </div>
+
+    <div class="room-body">
+      <div class="room-top">
+        <span class="room-name">Premier Suite</span>
+        <a class="room-link">Room details</a>
+      </div>
+
+      <div class="room-specs">
+        <span class="spec">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
+          1 King Bed
+        </span>
+        <span class="spec">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Sleeps 3
+        </span>
+        <span class="spec">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18"/></svg>
+          45 m²
+        </span>
+      </div>
+
+      <div class="amenity-row">
+        <span class="amenity">❄️ Air Conditioning</span>
+        <span class="amenity">📶 Wi-Fi</span>
+        <span class="amenity">🛁 Bathtub</span>
+        <span class="amenity">🌅 City View</span>
+        <span class="amenity">🛋️ Living Area</span>
+      </div>
+
+      <div class="offer-box">
+        <div class="offer-left">
+          <div class="offer-headline">Today's lowest price</div>
+          <div class="perks">
+            <span class="perk">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Free cancellation before Sep 2
+            </span>
+            <span class="perk">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="8 12 12 16 16 12"/></svg>
+              Breakfast included
+            </span>
+          </div>
+          <a class="deal-link">Deal details</a>
+        </div>
+        <div class="offer-right">
+          <div style="text-align:right; margin-bottom:6px">
+            <span class="badge badge-vio">Only on Vio</span>
+          </div>
+          <div>
+            <span class="price-now">€189</span>
+            <span class="price-unit"> / night</span>
+          </div>
+          <div class="price-total">€378 total 1 room, 2 nights<br>incl. taxes &amp; fees</div>
+          <button class="btn-book">Book &nbsp;›</button>
+          <button class="btn-freeze">Freeze deal &nbsp;✳️</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+
+<!-- ═══════════════════════════════════════════════
+     SOLD-OUT ALTERNATIVE OVERLAY
+══════════════════════════════════════════════════ -->
+<div class="backdrop" id="backdrop" onclick="handleBackdropClick(event)">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+
+    <!-- Header -->
+    <div class="modal-head">
+      <div>
+        <div class="modal-title" id="modal-title">This offer is no longer available</div>
+        <div class="modal-sub">But we found you an equivalent room at the same price</div>
+      </div>
+      <button class="close-btn" onclick="closeOverlay()" aria-label="Close">✕</button>
+    </div>
+
+    <!-- Sold-out room (what they clicked) -->
+    <div class="modal-from">
+      <div class="section-label">You selected</div>
+      <div class="room-row">
+        <img class="room-thumb-img"
+          src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=200&q=70"
+          alt="Superior King Room">
+        <div class="room-row-info">
+          <div class="row-name">
+            Superior King Room
+            <span class="badge badge-soldout" style="font-size:10px">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+              Sold out
+            </span>
+          </div>
+          <div class="row-specs">1 King Bed &nbsp;·&nbsp; Sleeps 2 &nbsp;·&nbsp; 28 m²</div>
+          <div class="perk-tags">
+            <span class="pt pt-gray">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Free cancellation
+            </span>
+            <span class="pt pt-gray">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="8 12 12 16 16 12"/></svg>
+              Breakfast
+            </span>
+          </div>
+        </div>
+        <div class="row-price">
+          <div class="row-price-main faded">€139</div>
+          <div class="row-price-sub">/ night</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="modal-divider">
+      <div class="divider-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6933CC" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+      </div>
+      <span class="divider-text">We found an equivalent alternative</span>
+    </div>
+
+    <!-- Available alternative -->
+    <div class="modal-to">
+      <div class="section-label">Available now</div>
+      <div class="room-row">
+        <img class="room-thumb-img bright"
+          src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=200&q=70"
+          alt="Classic King Room">
+        <div class="room-row-info">
+          <div class="row-name">Classic King Room</div>
+          <div class="row-specs">1 King Bed &nbsp;·&nbsp; Sleeps 2 &nbsp;·&nbsp; 26 m²</div>
+          <div class="perk-tags">
+            <span class="pt pt-match">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Free cancellation
+            </span>
+            <span class="pt pt-match">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Breakfast
+            </span>
+          </div>
+        </div>
+        <div class="row-price">
+          <div class="row-price-main" style="color:var(--purple)">€139</div>
+          <div class="row-price-sub">/ night</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Price match note -->
+    <div style="padding: 0 24px 16px; background:#F7FBF9;">
+      <div class="price-match-note">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        Same price &nbsp;·&nbsp; Same perks &nbsp;·&nbsp; Book with confidence
+      </div>
+    </div>
+
+    <!-- Footer CTA -->
+    <div class="modal-footer">
+      <button class="btn-book-alt" onclick="closeOverlay()">
+        Book Classic King Room
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+      <a class="back-link" onclick="closeOverlay()">Back to all rooms</a>
+    </div>
+
+  </div>
+</div>
+
+
+<script>
+  function openOverlay() {
+    document.getElementById('backdrop').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeOverlay() {
+    document.getElementById('backdrop').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function handleBackdropClick(e) {
+    if (e.target === document.getElementById('backdrop')) closeOverlay();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeOverlay();
+  });
+</script>
+</body>
+</html>
